@@ -74,9 +74,6 @@ function handleAddSongEvent(event) {
  * Creates a song DOM element based on a song object.
  */
 function createSongElement({ id, title, album, artist, duration, coverArt }) {
-    // const artistEl=createElement("span",[artist]);
-    // const titleEl=createElement("span",[title]);
-    // const durationEl=createElement("span",[title]);
     const song=arguments[0]
     const children = songList(song)
     const classes = ["song"]
@@ -88,9 +85,10 @@ function createSongElement({ id, title, album, artist, duration, coverArt }) {
 /**
  * Creates a playlist DOM element based on a playlist object.
  */
-function createPlaylistElement({ id, name, songs }) {
-    const children = []
-    const classes = []
+ function createPlaylistElement({ id, name, songs }) {
+    const playlist=arguments[0]
+    const children = playPlaylist(playlist)
+    const classes = ["playlist"]
     const attrs = {}
     const eventListeners = {}
     return createElement("div", children, classes, attrs, eventListeners)
@@ -127,9 +125,10 @@ function createElement(tagName, children = [], classes = [], attributes = {}, ev
 /**
  * Inserts all songs in the player as DOM elements into the songs list.
  */
-let songsExist=0
+let songsExist=0;
 function generateSongs() {
     // Your code here
+    player.songs.sort(sortArray);
     const x=document.querySelector("#songs>.list")
 for(let i=songsExist;i<player.songs.length;i++){
 x.appendChild(createSongElement(player.songs[i]))
@@ -142,6 +141,13 @@ songsExist++
  */
 function generatePlaylists() {
     // Your code here
+    const x=document.querySelector("#playlists>.list")
+for(let i=0;i<player.playlists.length;i++){
+    // for(let j=0;j<player.playlists[i].songs.length;j++){
+        // player.playlists[i].sort(sortArray);
+x.appendChild(createPlaylistElement(player.playlists[i]));
+// }
+}
 }
 
 // Creating the page structure
@@ -164,7 +170,6 @@ function songList(song){
      else if(key.toString()==="duration"){
         const span=document.createElement('span');
         let duration=convertDuriation(song[key])
-        duration.toStringS
         span.innerText=`${key}: ${duration}`;
         list.push(span)
     }
@@ -176,6 +181,39 @@ function songList(song){
     }
     }
     return list
+    }
+    //  create list of playlists
+    function playPlaylist(playlist){
+        const list=[]
+        let sumDuration =playlistDuration(playlist)
+        for(let key in playlist){
+            if(key.toString()!=="songs"){
+               const span=document.createElement('span')
+                   span.innerText=`${key}: ${playlist[key]}`;
+                      list.push(span)
+                    }
+                    else{
+                        const span=document.createElement("span")
+                        span.innerText=`number of songs: ${playlist.songs.length}`
+                        list.push(span)
+          
+                    }
+        }
+        const span=document.createElement("span")
+        sumDuration=convertDuriation(sumDuration)
+        span.innerText=`duration: ${(sumDuration)}`;
+        list.push(span)
+        return list 
+        }
+    
+    // sorting an array by rhe alphabetic order
+    function sortArray(a, b){
+        if(a.hasOwnProperty("title")){
+          return a.title.localeCompare(b.title);
+        }
+        if(a.hasOwnProperty("name")){
+          return a.name.localeCompare(b.name);
+        }
     }
 
     

@@ -1,11 +1,10 @@
 /* Your code here */
-span{
-    cursor: pointer;
+/* span{
+    
 
-}
+} */
 img{
     height:70px;
-    cursor: pointer;
     
 }
 #songs>.list{
@@ -13,6 +12,19 @@ img{
     
 }
 .song{
+    display: flex;
+    flex-direction: column;
+    background-color: lightgray;    
+    border-radius:10px;
+    /* padding-bottom: 20px; */
+    margin-right: 70%;  
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+#playlists>.list{
+    align-content: space-around;  
+}
+.playlist{
     display: flex;
     flex-direction: column;
     background-color: lightgray;    
