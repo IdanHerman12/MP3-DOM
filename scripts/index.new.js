@@ -94,6 +94,22 @@ function createSongElement({ id, title, album, artist, duration, coverArt }) {
     return createElement("div", children, classes, attrs, eventListeners)
 }
 
+function createPlayDelete(){
+    for(let i=0;i<songsExist;i++){
+        const id=player.songs[i].id
+        let x=document.querySelector(`#song_${id}`)
+        console.log(x)
+x.appendChild(createElement("button",["play"],["play-button"],{}))
+x.appendChild(createElement("button",["delete"],["delete-button"],{}))
+}
+//  const songs=document.querySelectorAll(".song")
+//  for(key in songs){
+//      const song=songs[key]
+//      const buttonPlay=document.createElement('button')
+//      song.appendChild(buttonPlay)
+//  }
+}
+
 /**
  * Creates a new DOM element.
  *
@@ -141,17 +157,16 @@ songsExist++
  */
 function generatePlaylists() {
     // Your code here
-    const x=document.querySelector("#playlists>.list")
-for(let i=0;i<player.playlists.length;i++){
-    // for(let j=0;j<player.playlists[i].songs.length;j++){
-        // player.playlists[i].sort(sortArray);
+    player.playlists.sort(sortArray);
+    const x=document.querySelector("#playlists>.list");
+for(let i=0;i<player.playlists.length;i++){  
 x.appendChild(createPlaylistElement(player.playlists[i]));
-// }
 }
 }
 
 // Creating the page structure
 generateSongs()
+createPlayDelete()
 generatePlaylists()
 
 // Making the add-song-button actually do something

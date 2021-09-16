@@ -34,3 +34,11 @@ img{
     margin-top: 20px;
     margin-bottom: 20px;
 }
+.play-button{
+    margin-right: 90px;
+    color:red;
+}
+.delete-button{
+    margin-right: 90px;
+    color:red;
+}
