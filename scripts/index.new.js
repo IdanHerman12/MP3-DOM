@@ -93,21 +93,14 @@ function createSongElement({ id, title, album, artist, duration, coverArt }) {
     const eventListeners = {}
     return createElement("div", children, classes, attrs, eventListeners)
 }
-
+//create the buttons for paly and delete songs
 function createPlayDelete(){
     for(let i=0;i<songsExist;i++){
         const id=player.songs[i].id
         let x=document.querySelector(`#song_${id}`)
-        console.log(x)
 x.appendChild(createElement("button",["play"],["play-button"],{}))
 x.appendChild(createElement("button",["delete"],["delete-button"],{}))
 }
-//  const songs=document.querySelectorAll(".song")
-//  for(key in songs){
-//      const song=songs[key]
-//      const buttonPlay=document.createElement('button')
-//      song.appendChild(buttonPlay)
-//  }
 }
 
 /**
