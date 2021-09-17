@@ -2,11 +2,20 @@
  * Plays a song from the player.
  * Playing a song means changing the visual indication of the currently playing song.
  *
- * @param {Number} songId - the ID of the song to play
+ * @param {String} songId - the ID of the song to play
  */
 function playSong(songId) {
     // Your code here
-}
+    const songs=document.querySelectorAll('.song')
+    for (let i=0;i<songs.length;i++){
+        let songEl=document.getElementById(songs[i].id)
+        songEl.style.background="lightgrey"
+        if(songs[i].id===songId){
+            console.log("bla")
+            songEl.style.background="lightblue"
+        }
+        }
+    }
 
 /**
  * Removes a song from the player, and updates the DOM to match.
@@ -22,7 +31,6 @@ function removeSong(songId) {
  */
 function addSong({ title, album, artist, duration, coverArt }) {
     // Your code here
-    console.log(title, album, artist, duration, coverArt)
     const  id=randomID(player.songs)
     const format=duration.split(":")
     let minutes=parseInt(format.slice(0,1))
@@ -39,7 +47,6 @@ function addSong({ title, album, artist, duration, coverArt }) {
     player.songs.push(song) 
     alert("songs added")
     generateSongs()
-    // return player.songs[player.songs.length-1].id
   }
 
 
@@ -50,8 +57,11 @@ function addSong({ title, album, artist, duration, coverArt }) {
  * @param {MouseEvent} event - the click event
  */
 function handleSongClickEvent(event) {
-    // Your code here
+    // const x=document.parentElement;
+    const songId=event.target.parentElement.id
+    playSong(songId)
 }
+
 
 /**
  * Handles a click event on the button that adds songs.
@@ -66,7 +76,6 @@ function handleAddSongEvent(event) {
         let durationEl=document.querySelector("#inputs > input:nth-child(4)").value
         console.log(durationEl)
         const coverArtEl=document.querySelector("#inputs > input:nth-child(5)").value
-        console.log({titleEl,albumEl,artistEl,durationEl,coverArtEl})
         addSong({title:titleEl,album:albumEl,artist:artistEl,duration:durationEl,coverArt:coverArtEl})
 }
 
@@ -93,13 +102,15 @@ function createSongElement({ id, title, album, artist, duration, coverArt }) {
     const eventListeners = {}
     return createElement("div", children, classes, attrs, eventListeners)
 }
+
+
 //create the buttons for paly and delete songs
 function createPlayDelete(){
     for(let i=0;i<songsExist;i++){
         const id=player.songs[i].id
         let x=document.querySelector(`#song_${id}`)
-x.appendChild(createElement("button",["play"],["play-button"],{}))
-x.appendChild(createElement("button",["delete"],["delete-button"],{}))
+x.appendChild(createElement("button",["play"],["play-button"],{},{click : handleSongClickEvent}))
+x.appendChild(createElement("button",["delete"],["delete-button"],{click : handleSongClickEvent}))
 }
 }
 
@@ -124,6 +135,10 @@ function createElement(tagName, children = [], classes = [], attributes = {}, ev
    for(let i=0;i<attribute.length;i++){
        element.setAttribute(attribute[i],attributes[attribute[i]])  
    }
+   const events=Object.keys(eventListeners)
+   for(let i=0;i<events.length;i++){
+    element.addEventListener(events[i],eventListeners[events[i]])  
+}
    for(let i=0;i<children.length;i++){
     element.append(children[i])
    }
