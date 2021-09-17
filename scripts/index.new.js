@@ -22,8 +22,18 @@ function playSong(songId) {
  *
  * @param {Number} songId - the ID of the song to remove
  */
-function removeSong(songId) {
+function removeSong(id) {
     // Your code here
+    if(exist(id,player.songs)!==-1){
+        for(let i=0;i<player.playlists.length;i++){
+          for(let j=0;j<player.playlists[i].songs.length;j++){
+            if(player.playlists[i].songs[j]==id){
+              player.playlists[i].songs.splice(player.playlists[i].songs.indexOf(id),1)
+            } 
+          }
+        }
+         player.songs.splice(exist(id,player.songs),1)
+        }
 }
 
 /**
@@ -58,9 +68,29 @@ function addSong({ title, album, artist, duration, coverArt }) {
  */
 function handleSongClickEvent(event) {
     // const x=document.parentElement;
+    const action=event.target.innerText
     const songId=event.target.parentElement.id
+    console.log(action)
+    if(action==="play"){
     playSong(songId)
 }
+else {
+    let songIdOnlyNumber=songId.split("_")
+    songIdOnlyNumber=Number(songIdOnlyNumber[1])
+    console.log(songIdOnlyNumber)
+    removeSong(songIdOnlyNumber)
+    document.getElementById(songId).remove()
+    // console.log(document.getElementsByClassName("playlist"))
+     const playlists=document.getElementsByClassName("playlist")
+     while(playlists[0]!==undefined){
+         playlists[0].remove()
+     }
+     generateSongs()
+     generatePlaylists()
+     }
+   
+}
+
 
 
 /**
@@ -110,7 +140,7 @@ function createPlayDelete(){
         const id=player.songs[i].id
         let x=document.querySelector(`#song_${id}`)
 x.appendChild(createElement("button",["play"],["play-button"],{},{click : handleSongClickEvent}))
-x.appendChild(createElement("button",["delete"],["delete-button"],{click : handleSongClickEvent}))
+x.appendChild(createElement("button",["delete"],["delete-button"],{},{click : handleSongClickEvent}))
 }
 }
 
